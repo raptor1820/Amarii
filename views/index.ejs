@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+      </script>
+    <title>Document</title>
+</head>
+<body style="background-color: #4c0420;">
+  <div class="flex justify-center items-center p-6 m-6 ">
+
+       <form action="/formSubmit" method="post" id="mainform" enctype="multipart/form-data">
+      
+      <div class="mb-6 w-[600px]" >
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
+        <input type="email" name="email" id="email" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@email.com" required>
+      </div>
+      
+      <div class="mb-6">
+        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="file_input">Image</label>
+        <input name="image" id="image" class="block w-full text-sm text-gray-900 bg-transparent rounded-lg border border-white-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 file:rounded-r-full file:bg-transparent file:text-white file:mr-4 file:border-gray-50 file:border-collapse file:border-l-0 file:border-t-0 file:border-b-0"  type="file" required>
+      </div>   
+      
+      <div class="mb-6">
+        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
+        <input type="text" name="title" id="title" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      <div class="mb-6">
+        <label for="Height (in cm)" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Height (in cm)</label>
+        <input type="number" name="height" id="height" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      <div class="mb-6">
+        <label for="width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Width (in cm)</label>
+        <input type="number" name="width" id="width" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      <div class="mb-6">
+        <label for="medium" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medium</label>
+        <input type="text" name="medium" id="medium" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="watercolor, acryllic etc." required>
+      </div>
+      <div class="mb-6">
+        <label for="artist" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Artist</label>
+        <input type="text" name="artist" id="artist" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      <div class="mb-6">
+        <label for="year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Year</label>
+        <input type="number" name="year" id="year" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
+        <textarea type="textarea" name="description" form="mainform" id="description" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a brief description of your work! You may leave this blank."></textarea>>
+      </div>
+      <div class="mb-6">
+        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Price (in INR)</label>
+        <input type="number" name="price" id="price" class="bg-transparent border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+      
+      <button type="submit"  id="submitButton" class="border boder-white-500 text-white bg-white-700 hover:bg-white-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<script>
+
+    const sendToServer = (id,approve) => {
+      
+      document.getElementById(id+"header").style.display = "none";
+         fetch("/approvedUser",  
+         {
+        method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify({id : id ,
+        
+        approved : approve})})
+        
+    }
+
+</script>
+
+<body style="background-color: #212529;">
+    <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Artist</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope = "col">Size (WxH)</th>
+            <th scope="col">Image</th>
+            <th scope="col">Approve/Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i =0;i< data.length;i++){%>
+          <tr id="<%=data[i].id%>header">
+            <th scope="row"><%=data[i].artist%></th>
+            <td><%=data[i].title%></td>
+            <td><%=data[i].price%></td>
+            <td><%=data[i].width%>x<%=data[i].height%></td>
+            <td><img src=""  id="<%=data[i]._id%>" style="width: 160px; height: 90px;" ></td>
+            <script>
+                var  img_str = "data:"+"<%=data[0].image.contentType%>"+";base64,"+"<%=data[0].image.data.toString('base64')%>";
+                document.getElementById("<%=data[i]._id%>").src = img_str;
+            </script>
+            <td><a onclick="sendToServer('<%=data[i]._id%>',true)"><i class="fas fa-check-circle fa-3x"></i> </a>  <a onclick="sendToServer('<%=data[i]._id%>',false)"><i class="far fa-times-circle fa-3x"></i></a></td>
+          </tr><%}%>
+        </tbody>
+      </table>
+      <br>
+      <br>
+</body>
+</html>
