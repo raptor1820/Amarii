@@ -202,18 +202,19 @@ app.post("/approvedUser", auth, async (req, res) => {
       }
     );
     const response = await send.json();
-    var img_id = response.id;
+    console.log(response);
+    // var img_id = response.id;
 
-    var img_data = data.image.data.toString("base64");
-    var buf = Buffer.from(img_data, "base64");
-    fs.writeFileSync("./images/" + data._id + ".png", buf);
+    // var img_data = data.image.data.toString("base64");
+    // var buf = Buffer.from(img_data, "base64");
+    // fs.writeFileSync("./images/" + data._id + ".png", buf);
+    // const formData = new FormData();
+    // formData.append(
+    //   "file",
+    //   "testimage.jpg",
+    //   fs.createReadStream("testimg.jpg")
+    // );
 
-    const form = new FormData();
-    form.append(
-      "file",
-      fs.createReadStream("./images/" + data._id + ".png"),
-      "myfile.png"
-    );
     // const send_img = await fetch(
     //   "https://api.squarespace.com/1.0/commerce/products/" + img_id + "/images",
     //   {
@@ -222,17 +223,13 @@ app.post("/approvedUser", auth, async (req, res) => {
     //       Authorization: "Bearer " + process.env.SQUARESPACE_API_KEY,
     //       "User-Agent": "Amarii",
     //       "Content-Type": "multipart/form-data",
-    //       "Content-Disposition": contentDisposition(
-    //         "./images/" + data._id + ".png",
-    //         "file"
-    //       ),
     //     },
-    //     body: form,
+    //     body: formData,
     //   }
     // );
     // const img_response = await send_img.json();
     // console.log(img_response);
-    fs.unlinkSync("./images/" + data._id + ".png");
+    // fs.unlinkSync("./images/" + data._id + ".png");
   }
   res.status(200).end();
 });
@@ -245,3 +242,10 @@ app.listen(process.env.PORT || 3000, (err) => {
     console.log(err);
   } else console.log("Server listening!");
 });
+// curl "https://api.squarespace.com/1.0/commerce/products/63ab0ff8796311649603ee49/images" \
+//   -i \;
+//   -H "Authorization: Bearer 0a02fcf2-5789-4b31-938b-97ed7c038cfa" \
+//   -H "User-Agent: Amarii" \
+//   -H "Content-Type: multipart/form-data" \
+//   -X POST \
+//   -F file=@images.jpg
