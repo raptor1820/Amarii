@@ -5,16 +5,20 @@ import dotenv from "dotenv";
 import multer from "multer";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import { spawn } from "child_process";
 import bcrypt from "bcrypt";
 import fetch, { FormData, fileFromSync } from "node-fetch";
 import fs from "fs";
+import { Blob } from "buffer";
 //import contentDisposition from "content-disposition";
+import cors from "cors";
 const app = express();
 const upload = multer();
 import userModel from "./models/userModel.js";
 import auth from "./middleware/auth.js";
 
 dotenv.config();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false, limit: "20mb" }));
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(cookieParser());
@@ -99,7 +103,7 @@ app.post("/login", async (req, res) => {
   if (!result) {
     res.redirect("/auth");
   }
-  const token = jwt.sign({ id: id }, process.env.secret);
+  const token = jwt.sign({ id: id }, process.env.SECRET);
   res.cookie("logged", token, {
     httpOnly: true,
     maxAge: 2 * 60 * 60 * 1000,
@@ -130,6 +134,10 @@ app.post("/approvedUser", auth, async (req, res) => {
       console.log(err);
     });
   if (req.body.approved) {
+    for (const file of fs.readdirSync("./images")) {
+      fs.unlinkSync("./images/" + file);
+    }
+
     const data = await userModel.findOne({ _id: req.body.id });
     const sending_data = {
       type: "PHYSICAL",
@@ -203,16 +211,34 @@ app.post("/approvedUser", auth, async (req, res) => {
     );
     const response = await send.json();
     console.log(response);
-    // var img_id = response.id;
+    var img_id = response.id;
 
-    // var img_data = data.image.data.toString("base64");
-    // var buf = Buffer.from(img_data, "base64");
-    // fs.writeFileSync("./images/" + data._id + ".png", buf);
-    // const formData = new FormData();
-    // formData.append(
+    var img_data = data.image.data.toString("base64");
+
+    var buf = Buffer.from(img_data, "base64");
+
+    fs.writeFileSync("./images/" + data._id + ".png", buf);
+    const python = spawn("python", [
+      "upload_image.py",
+      img_id,
+      "./images/" + data._id + ".png",
+      process.env.SQUARESPACE_API_KEY,
+    ]);
+    python.stdout.on("data", function (data) {
+      console.log("Pipe data from python script ...");
+      console.log(data.toString());
+    });
+
+    // const dataOfImg = fs
+    //   .readFileSync("./images/" + data._id + ".png")
+    //   .toString();
+
+    // console.log(dataOfImg);
+    // const form = new FormData();
+    // form.append(
     //   "file",
-    //   "testimage.jpg",
-    //   fs.createReadStream("testimg.jpg")
+    //   new Blob(Array.from(dataOfImg), { type: "image/png" }),
+    //   "testimg.png"
     // );
 
     // const send_img = await fetch(
@@ -222,9 +248,9 @@ app.post("/approvedUser", auth, async (req, res) => {
     //     headers: {
     //       Authorization: "Bearer " + process.env.SQUARESPACE_API_KEY,
     //       "User-Agent": "Amarii",
-    //       "Content-Type": "multipart/form-data",
+    //       // "Content-Type": "multipart/form-data",
     //     },
-    //     body: formData,
+    //     body: form,
     //   }
     // );
     // const img_response = await send_img.json();
@@ -237,7 +263,7 @@ app.get("/*", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(process.env.PORT || 3000, (err) => {
+app.listen(process.env.PORT || 8080, (err) => {
   if (err) {
     console.log(err);
   } else console.log("Server listening!");
