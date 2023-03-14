@@ -117,6 +117,12 @@ app.get("/dashboard", auth, async (req, res) => {
 });
 
 app.post("/approvedUser", auth, async (req, res) => {
+  let path;
+  if (process.env.ENVIRONMENT === "DEV") {
+    path = "./images";
+  } else if (process.env.ENVIRONMENT === "PROD") {
+    path = "././tmp";
+  }
   await userModel
     .findOneAndUpdate(
       {
@@ -134,8 +140,8 @@ app.post("/approvedUser", auth, async (req, res) => {
       console.log(err);
     });
   if (req.body.approved) {
-    for (const file of fs.readdirSync("./images")) {
-      fs.unlinkSync("./images/" + file);
+    for (const file of fs.readdirSync(path)) {
+      fs.unlinkSync(path + "/" + file);
     }
 
     const data = await userModel.findOne({ _id: req.body.id });
@@ -217,11 +223,11 @@ app.post("/approvedUser", auth, async (req, res) => {
 
     var buf = Buffer.from(img_data, "base64");
 
-    fs.writeFileSync("./images/" + data._id + ".png", buf);
+    fs.writeFileSync(path + "/" + data._id + ".png", buf);
     const python = spawn("python", [
       "upload_image.py",
       img_id,
-      "./images/" + data._id + ".png",
+      path + "/" + data._id + ".png",
       process.env.SQUARESPACE_API_KEY,
     ]);
     python.stdout.on("data", function (data) {
